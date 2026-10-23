@@ -5,10 +5,27 @@
 {% block content %}
 <section class="contact">
     <h2>About CyberNews Tracker</h2>
-    <p>CyberNews Tracker collects cybersecurity news - vulnerabilities, ransomware, data breaches,
-       malware, phishing and research - in one place, so you do not have to visit many sites.</p>
-    <p>Articles are stored in a database. Registered users can read and search them,
-       administrators can add, edit and delete articles.</p>
-    <p>The articles shown here are placeholder content for the course project.</p>
+    <p>Cybersecurity changes every day. CyberNews Tracker collects current news on vulnerabilities, ransomware,
+       data breaches, malware, phishing and security research in one place, so you do not have to visit many sites.</p>
+
+    <h3>Where the news comes from</h3>
+    <p>The articles are real, current news from many publishers, collected through the
+       <a href="https://newsapi.org" target="_blank" rel="noopener noreferrer">NewsAPI</a>.
+       We show the headline, a short excerpt and the source. The full story always stays with the publisher:
+       every article links to its original source.</p>
+    <p>Topics are assigned automatically from keywords in the headline, so a category can occasionally be off.</p>
+
+    <h3>What you can do</h3>
+    <ul>
+        <li>Search the news and filter by topic or source.</li>
+        <li>Create a free account and save articles to read later &ndash; they wait for you in your dashboard.</li>
+        <li>Administrators can import fresh news and add, edit or remove articles.</li>
+    </ul>
+
+    <h3>Built with</h3>
+    <p>Python and Flask, a SQLite database, and plain HTML, CSS and JavaScript. Passwords are stored as hashes,
+       forms are protected against CSRF, and repeated failed logins are blocked.</p>
+
+    <p><a class="button" href="{{ url_for('news') }}">Read the latest news</a></p>
 </section>
 {% endblock %}
