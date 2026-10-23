@@ -7,32 +7,45 @@
     <title>{% block title %}CyberNews Tracker{% endblock %}</title>
 </head>
 <body>
-    <header>
-        <h1>CyberNews Tracker</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('news') }}">Latest News</a></li>
-                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
+    {% set ep = request.endpoint or '' %}
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="{{ url_for('home') }}">
+                <svg class="brand-mark" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+                    <path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z" fill="currentColor"/>
+                    <path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>CyberNews <strong>Tracker</strong></span>
+            </a>
+
+            <nav aria-label="Main">
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('home') }}" class="{{ 'active' if ep == 'home' }}">Home</a></li>
+                    <li><a href="{{ url_for('news') }}" class="{{ 'active' if ep in ('news', 'article') }}">Latest News</a></li>
+                    <li><a href="{{ url_for('about') }}" class="{{ 'active' if ep == 'about' }}">About</a></li>
+                    <li><a href="{{ url_for('contact') }}" class="{{ 'active' if ep in ('contact', 'submit_message') }}">Contact</a></li>
+                    {% if g.user %}
+                    <li><a href="{{ url_for('dashboard') }}" class="{{ 'active' if ep == 'dashboard' }}">Dashboard</a></li>
+                    {% if g.user.role == "admin" %}
+                    <li><a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if ep.startswith('admin') or ep in ('article_new', 'article_edit') }}">Admin</a></li>
+                    {% endif %}
+                    {% endif %}
+                </ul>
+            </nav>
+
+            <div class="nav-auth">
                 {% if g.user %}
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                {% if g.user.role == "admin" %}
-                <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
-                {% endif %}
-                <li class="current-user">Logged in as <strong>{{ g.user.username }}</strong> ({{ g.user.role }})</li>
-                <li>
-                    <form action="{{ url_for('logout') }}" method="POST">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                        <button type="submit">Logout</button>
-                    </form>
-                </li>
+                <span class="current-user"><strong>{{ g.user.username }}</strong> <span class="role-tag">{{ g.user.role }}</span></span>
+                <form action="{{ url_for('logout') }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
+                </form>
                 {% else %}
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('register') }}">Register</a></li>
+                <a class="btn btn-ghost btn-sm" href="{{ url_for('login') }}">Login</a>
+                <a class="btn btn-primary btn-sm" href="{{ url_for('register') }}">Register</a>
                 {% endif %}
-            </ul>
-        </nav>
+            </div>
+        </div>
     </header>
 
     <main>
@@ -41,8 +54,15 @@
         {% endblock %}
     </main>
 
-    <footer>
-        <p>&copy; CyberNews Tracker &middot; <a href="{{ url_for('about') }}">About</a> &middot; <a href="{{ url_for('contact') }}">Contact</a></p>
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p><strong>CyberNews Tracker</strong> &middot; Cybersecurity news in one place</p>
+            <p>
+                <a href="{{ url_for('news') }}">News</a>
+                <a href="{{ url_for('about') }}">About</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
+            </p>
+        </div>
     </footer>
 
     {% block scripts %}{% endblock %}

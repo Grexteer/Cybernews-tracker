@@ -3,12 +3,13 @@
 {% block title %}Latest News - CyberNews Tracker{% endblock %}
 
 {% block content %}
-<section class="intro">
-    <h2 id="greeting" data-username="{{ username }}">Welcome back, {{ username }}!</h2>
-    <p class="updated">Last updated: {{ last_updated }}</p>
+<section class="container page-head">
+    <h2>Latest news</h2>
+    <p class="lead"><span id="greeting" data-username="{{ username }}">Welcome back, {{ username }}!</span>
+       <span class="updated">Last updated: {{ last_updated }}</span></p>
 </section>
 
-<section class="filters">
+<section class="container filters card">
     <form id="filterForm" action="{{ url_for('news') }}" method="GET">
         <input type="search" id="searchInput" name="q" placeholder="Search articles..." aria-label="Search articles">
         <select id="categorySelect" name="category" aria-label="Category">
@@ -27,11 +28,18 @@
     <p id="articleStatus" class="hint"></p>
 </section>
 
-<section class="articles" id="articleList"></section>
+<section class="container section">
+    <div class="grid" id="articleList"></div>
+</section>
 
-<section class="live-feed">
-    <h3>Live cybersecurity news feed</h3>
-    <button id="refreshButton" type="button">Refresh Headlines</button>
+<section class="container section live-feed">
+    <div class="section-head">
+        <div>
+            <h2 class="section-title">Live headlines</h2>
+            <p class="hint">Fresh from the news API &ndash; separate from the saved articles above.</p>
+        </div>
+        <button id="refreshButton" type="button" class="btn btn-primary btn-sm">Refresh headlines</button>
+    </div>
     <p id="newsStatus" class="hint"></p>
     <ul id="headlinesContainer"></ul>
 </section>

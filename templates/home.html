@@ -1,36 +1,58 @@
 {% extends "index.html" %}
 
 {% block content %}
-<section class="contact">
-    <h2>Welcome to CyberNews Tracker!</h2>
-    <p>Latest cybersecurity news, incidents and updates in one place.</p>
+<section class="hero">
+    <div class="container hero-inner">
+        <span class="eyebrow">Live cybersecurity news</span>
+        <h1>Stay ahead of every threat.</h1>
+        <p class="hero-text">Vulnerabilities, ransomware, data breaches and more &ndash; collected from trusted sources in one place.</p>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="{{ url_for('news') }}">Browse all news</a>
+            {% if g.user %}
+            <a class="btn btn-light" href="{{ url_for('dashboard') }}">Your dashboard</a>
+            {% else %}
+            <a class="btn btn-light" href="{{ url_for('register') }}">Create an account</a>
+            {% endif %}
+        </div>
+        <ul class="stats">
+            <li><strong>{{ stats.articles }}</strong> articles</li>
+            <li><strong>{{ stats.sources }}</strong> sources</li>
+            <li><strong>{{ categories|length }}</strong> topics</li>
+        </ul>
+    </div>
+</section>
 
-    {% if g.user %}
-    <p>You are logged in as <strong>{{ g.user.username }}</strong> ({{ g.user.role }}).</p>
-    <p><a class="button" href="{{ url_for('dashboard') }}">Go to your dashboard</a></p>
-    {% else %}
-    <p>Log in to open your dashboard. Admins also get access to the admin dashboard.</p>
-    <p><a class="button" href="{{ url_for('login') }}">Login</a>
-       <a class="button" href="{{ url_for('register') }}">Register</a></p>
-    {% endif %}
+<section class="container section">
+    <h2 class="section-title">Browse by topic</h2>
+    <ul class="chips">
+        {% for category in categories %}
+        <li><a class="chip" href="{{ url_for('news', category=category) }}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
 </section>
 
 {% if featured %}
-<section class="articles">
-    <h3>Featured stories</h3>
-    {% for article in featured %}
-    {% include "_article_card.html" %}
-    {% endfor %}
+<section class="container section">
+    <h2 class="section-title">Featured stories</h2>
+    <div class="grid">
+        {% for article in featured %}
+        {% include "_article_card.html" %}
+        {% endfor %}
+    </div>
 </section>
 {% endif %}
 
-<section class="articles">
-    <h3>Latest stories</h3>
-    {% for article in latest %}
-    {% include "_article_card.html" %}
-    {% else %}
-    <p>No news available right now.</p>
-    {% endfor %}
-    <p><a class="button" href="{{ url_for('news') }}">Browse all news</a></p>
+<section class="container section">
+    <div class="section-head">
+        <h2 class="section-title">Latest stories</h2>
+        <a href="{{ url_for('news') }}">View all &rarr;</a>
+    </div>
+    <div class="grid">
+        {% for article in latest %}
+        {% include "_article_card.html" %}
+        {% else %}
+        <p>No news available right now.</p>
+        {% endfor %}
+    </div>
 </section>
 {% endblock %}

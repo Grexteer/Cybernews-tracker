@@ -130,7 +130,8 @@ def home():
     db = get_db()
     featured = db.execute("SELECT * FROM articles WHERE featured = 1 ORDER BY published DESC, id DESC LIMIT 3").fetchall()
     latest = db.execute("SELECT * FROM articles ORDER BY published DESC, id DESC LIMIT 6").fetchall()
-    return render_template("home.html", featured=featured, latest=latest)
+    stats = db.execute("SELECT COUNT(*) AS articles, COUNT(DISTINCT source) AS sources FROM articles").fetchone()
+    return render_template("home.html", featured=featured, latest=latest, stats=stats, categories=CATEGORIES)
 
 
 @app.route("/status")

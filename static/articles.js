@@ -17,10 +17,11 @@ function renderArticles(articles) {
 
     for (const article of articles) {
         const card = document.createElement("article");
-        card.className = "card";
+        card.className = "card article-card";
 
         const badge = document.createElement("span");
         badge.className = "badge";
+        badge.dataset.category = article.category;
         badge.textContent = article.category;
 
         const heading = document.createElement("h3");
@@ -30,17 +31,19 @@ function renderArticles(articles) {
         heading.appendChild(link);
 
         const summary = document.createElement("p");
+        summary.className = "summary";
         summary.textContent = article.summary;
 
+        const meta = document.createElement("div");
+        meta.className = "card-meta";
+        const source = document.createElement("span");
+        source.textContent = article.source;
         const time = document.createElement("time");
         time.dateTime = article.published;
         time.textContent = article.published;
+        meta.append(source, time);
 
-        const source = document.createElement("span");
-        source.className = "hint";
-        source.textContent = " · " + article.source;
-
-        card.append(badge, heading, summary, time, source);
+        card.append(badge, heading, summary, meta);
         articleList.appendChild(card);
     }
 }

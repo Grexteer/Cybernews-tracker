@@ -1,6 +1,9 @@
-<article class="card">
-    <span class="badge">{{ article.category }}</span>
+<article class="card article-card">
+    <span class="badge" data-category="{{ article.category }}">{{ article.category }}</span>
     <h3><a href="{{ url_for('article', article_id=article.id) }}">{{ article.title }}</a></h3>
-    <p>{{ article.summary }}</p>
-    <time datetime="{{ article.published }}">{{ article.published }}</time> &middot; <span class="hint">{{ article.source }}</span>
+    <p class="summary">{{ article.summary }}</p>
+    <div class="card-meta">
+        <span>{{ article.source }}</span>
+        <time datetime="{{ article.published }}">{{ article.published }}</time>
+    </div>
 </article>

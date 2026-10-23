@@ -3,19 +3,21 @@
 {% block title %}{{ article.title }} - CyberNews Tracker{% endblock %}
 
 {% block content %}
-<article class="contact">
-    <span class="badge">{{ article.category }}</span>
-    <h2>{{ article.title }}</h2>
-    <p class="hint"><time datetime="{{ article.published }}">{{ article.published }}</time> &middot; {{ article.source }}</p>
-    <p><strong>{{ article.summary }}</strong></p>
-    <p class="message">{{ article.content }}</p>
+<article class="article-page">
+    <a class="back-link" href="{{ url_for('news') }}">&larr; All news</a>
+    <span class="badge" data-category="{{ article.category }}">{{ article.category }}</span>
+    <h1>{{ article.title }}</h1>
+    <p class="meta"><time datetime="{{ article.published }}">{{ article.published }}</time> &middot; {{ article.source }}</p>
+    <p class="lead-text">{{ article.summary }}</p>
+    <div class="article-body message">{{ article.content }}</div>
 
-    {% if article.source_url %}
-    <p><a class="button" href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer">Read the original source</a></p>
-    {% endif %}
-    {% if g.user and g.user.role == "admin" %}
-    <p><a class="button" href="{{ url_for('article_edit', article_id=article.id) }}">Edit</a></p>
-    {% endif %}
-    <p><a href="{{ url_for('news') }}">&larr; Back to all news</a></p>
+    <div class="article-actions">
+        {% if article.source_url %}
+        <a class="btn btn-primary" href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer">Read the original source</a>
+        {% endif %}
+        {% if g.user and g.user.role == "admin" %}
+        <a class="btn btn-ghost" href="{{ url_for('article_edit', article_id=article.id) }}">Edit</a>
+        {% endif %}
+    </div>
 </article>
 {% endblock %}

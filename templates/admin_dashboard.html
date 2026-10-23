@@ -8,6 +8,12 @@
     <p>Signed in as <strong>{{ user.username }}</strong> ({{ user.role }}).
        Only accounts with the <code>admin</code> role in the server-side session can open this page.</p>
 
+    <ul class="tiles">
+        <li><strong>{{ articles|length }}</strong> articles</li>
+        <li><strong>{{ accounts|length }}</strong> accounts</li>
+        <li><strong>{{ sessions|length }}</strong> active sessions</li>
+    </ul>
+
     <h3>Articles ({{ articles|length }})</h3>
     {% if import_error %}
     <p class="error">Import failed: {{ import_error }}</p>
@@ -31,9 +37,9 @@
                 <tr>
                     <td><a href="{{ url_for('article', article_id=article.id) }}">{{ article.title }}</a></td>
                     <td>{{ article.category }}</td>
-                    <td>{{ article.published }}</td>
+                    <td class="nowrap">{{ article.published }}</td>
                     <td>{{ "yes" if article.featured else "" }}</td>
-                    <td class="actions">
+                    <td class="actions nowrap">
                         <a href="{{ url_for('article_edit', article_id=article.id) }}">Edit</a>
                         <form action="{{ url_for('article_delete', article_id=article.id) }}" method="POST"
                               data-confirm="Delete this article?">
@@ -73,7 +79,7 @@
             </thead>
             <tbody>
                 {% for account in accounts %}
-                <tr><td>{{ account.username }}</td><td>{{ account.role }}</td><td>{{ account.created_at }}</td></tr>
+                <tr><td>{{ account.username }}</td><td>{{ account.role }}</td><td class="nowrap">{{ account.created_at }}</td></tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -88,7 +94,7 @@
             <tbody>
                 {% for entry in audit %}
                 <tr>
-                    <td>{{ entry.created_at }}</td>
+                    <td class="nowrap">{{ entry.created_at }}</td>
                     <td>{{ entry.username }}</td>
                     <td>{{ "success" if entry.success else "FAILED" }}</td>
                     <td>{{ entry.ip }}</td>
