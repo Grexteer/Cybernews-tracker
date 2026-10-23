@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}CyberNews Tracker{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>CyberNews Tracker</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('news') }}">Latest News</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('cookie_check') }}">Cookie Check</a></li>
+                {% if g.user %}
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('intelligence') }}">Intelligence</a></li>
+                {% if g.user.role == "admin" %}
+                <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+                {% endif %}
+                <li class="current-user">Logged in as <strong>{{ g.user.username }}</strong> ({{ g.user.role }})</li>
+                <li>
+                    <form action="{{ url_for('logout') }}" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <p>Latest cybersecurity updates will appear here soon.</p>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; CyberNews Tracker &middot; <a href="{{ url_for('about') }}">About</a> &middot; <a href="{{ url_for('contact') }}">Contact</a></p>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

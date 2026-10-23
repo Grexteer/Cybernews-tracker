@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+
+{% block title %}Intelligence - CyberNews Tracker{% endblock %}
+
+{% block content %}
+<section class="intro">
+    <h2>Intelligence Feed</h2>
+    <p>Click the button and enter an API token. Each report is added below the previous ones.</p>
+    <button id="fetchIntelButton" type="button">Fetch Intelligence</button>
+</section>
+
+<section id="intelReports"></section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='intelligence.js') }}"></script>
+{% endblock %}

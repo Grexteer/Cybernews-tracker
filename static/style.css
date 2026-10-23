@@ -1,0 +1,303 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+header,
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+}
+
+main {
+    padding: 40px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav li {
+    display: inline;
+    margin: 0 10px;
+}
+
+a {
+    color: #1a4f8b;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+header a,
+footer a {
+    color: white;
+}
+
+header a:hover,
+footer a:hover {
+    color: #ccc;
+}
+
+.contact .button,
+.contact .button:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.updated {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.recent ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.articles {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 0 16px;
+    text-align: left;
+}
+
+.card,
+#headlinesContainer li {
+    background-color: white;
+    border-left: 4px solid #333;
+    border-radius: 4px;
+    padding: 12px 18px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+.card time {
+    color: #666;
+    font-size: 0.85em;
+}
+
+#headlinesContainer {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 0 16px;
+    text-align: left;
+}
+
+#headlinesContainer a {
+    color: #1a4f8b;
+    font-weight: bold;
+}
+
+#headlinesContainer a:hover {
+    text-decoration: underline;
+}
+
+#headlinesContainer .source {
+    display: block;
+    color: #666;
+    font-size: 0.85em;
+    margin-top: 4px;
+}
+
+#newsStatus.error {
+    color: #b00020;
+}
+
+.contact {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 16px;
+    text-align: left;
+}
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact input,
+.contact textarea {
+    font: inherit;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.contact button,
+.contact .button {
+    align-self: flex-start;
+    margin-top: 8px;
+    padding: 8px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.contact .message {
+    white-space: pre-wrap;
+}
+
+.contact ul,
+.contact ol {
+    line-height: 1.6;
+}
+
+.contact code {
+    background-color: #e8e8e8;
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
+.error {
+    color: #b00020;
+    font-weight: bold;
+}
+
+.hint {
+    color: #666;
+    font-size: 0.9em;
+}
+
+nav form {
+    display: inline;
+}
+
+nav button {
+    background: none;
+    border: none;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+}
+
+nav button:hover {
+    color: #ccc;
+}
+
+.current-user {
+    color: #ccc;
+}
+
+.contact table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contact th,
+.contact td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.intel-report {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-left: 5px solid #333;
+    border-radius: 4px;
+    margin: 15px auto;
+    max-width: 600px;
+    padding: 15px;
+    text-align: left;
+}
+
+.badge {
+    display: inline-block;
+    background-color: #333;
+    color: white;
+    border-radius: 3px;
+    font-size: 0.75em;
+    padding: 2px 8px;
+}
+
+.filters form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 16px;
+}
+
+.filters input,
+.filters select {
+    font: inherit;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.articles h3 {
+    margin-bottom: 0;
+}
+
+.contact.wide {
+    max-width: 900px;
+}
+
+.contact select,
+.contact input[type="date"] {
+    font: inherit;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.actions form {
+    display: inline;
+    margin-left: 8px;
+}
+
+.contact .link-button {
+    background: none;
+    color: #b00020;
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;
+}
+
+.message {
+    white-space: pre-wrap;
+}
+
+@media (max-width: 600px) {
+    nav li {
+        display: block;
+        margin: 8px 0;
+    }
+
+    .contact table {
+        font-size: 0.85em;
+    }
+}
+
+.actions-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.actions-bar form {
+    margin: 0;
+}

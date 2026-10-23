@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+
+{% block title %}Cookie Check - CyberNews Tracker{% endblock %}
+
+{% block content %}
+<section class="contact">
+    <h2>HttpOnly cookie check</h2>
+    <p>This page just set two cookies:</p>
+    <ul>
+        <li><code>js_visible_cookie</code> - a normal cookie, readable by JavaScript</li>
+        <li><code>httponly_cookie</code> - marked <code>HttpOnly</code>, hidden from JavaScript</li>
+    </ul>
+
+    <h3>Try it yourself</h3>
+    <ol>
+        <li>Open the developer tools (F12) and switch to the <strong>Console</strong> tab.</li>
+        <li>Type <code>document.cookie</code> and press Enter.</li>
+        <li>Only <code>js_visible_cookie</code> shows up. <code>httponly_cookie</code> (and
+            <code>session_token</code> if you are logged in) are missing.</li>
+        <li>Now open <strong>Application &rarr; Cookies</strong> (Firefox: <strong>Storage</strong>):
+            all cookies are there - the browser still sends them to the server,
+            scripts just can't read them.</li>
+    </ol>
+
+    <div class="card">
+        <p><strong>What this page's JavaScript sees in <code>document.cookie</code>:</strong></p>
+        <p><code id="cookieOutput"></code></p>
+    </div>
+
+    <p>Why it matters: if an attacker injects a script (XSS), it can steal
+       <code>js_visible_cookie</code> but not an HttpOnly session cookie.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='cookie_check.js') }}"></script>
+{% endblock %}

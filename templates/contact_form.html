@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+
+{% block title %}Contact - CyberNews Tracker{% endblock %}
+
+{% block content %}
+<section class="contact">
+    <h2>Contact us</h2>
+    <p>Report a cybersecurity incident or suggest an improvement.</p>
+
+    <form action="{{ url_for('submit_message') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+
+        <label for="message">Message:</label>
+        <textarea name="message" id="message" rows="5" required></textarea>
+
+        <button type="submit">Send</button>
+    </form>
+</section>
+{% endblock %}

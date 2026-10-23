@@ -1,0 +1,118 @@
+{% extends "index.html" %}
+
+{% block title %}Admin Dashboard - CyberNews Tracker{% endblock %}
+
+{% block content %}
+<section class="contact wide">
+    <h2>Admin Dashboard</h2>
+    <p>Signed in as <strong>{{ user.username }}</strong> ({{ user.role }}).
+       Only accounts with the <code>admin</code> role in the server-side session can open this page.</p>
+
+    <h3>Articles ({{ articles|length }})</h3>
+    {% if import_error %}
+    <p class="error">Import failed: {{ import_error }}</p>
+    {% elif imported is not none %}
+    <p class="hint">Imported {{ imported }} new article(s) from the live news API.</p>
+    {% endif %}
+    <div class="actions-bar">
+        <a class="button" href="{{ url_for('article_new') }}">Add article</a>
+        <form action="{{ url_for('admin_import_news') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button type="submit">Import live news</button>
+        </form>
+    </div>
+    <div class="card">
+        <table>
+            <thead>
+                <tr><th>Title</th><th>Category</th><th>Date</th><th>Featured</th><th></th></tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                <tr>
+                    <td><a href="{{ url_for('article', article_id=article.id) }}">{{ article.title }}</a></td>
+                    <td>{{ article.category }}</td>
+                    <td>{{ article.published }}</td>
+                    <td>{{ "yes" if article.featured else "" }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('article_edit', article_id=article.id) }}">Edit</a>
+                        <form action="{{ url_for('article_delete', article_id=article.id) }}" method="POST"
+                              data-confirm="Delete this article?">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                            <button type="submit" class="link-button">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Active sessions ({{ sessions|length }})</h3>
+    <div class="card">
+        <table>
+            <thead>
+                <tr><th>User</th><th>Role</th><th>Logged in at</th></tr>
+            </thead>
+            <tbody>
+                {% for session in sessions %}
+                <tr>
+                    <td>{{ session.username }}</td>
+                    <td>{{ session.role }}</td>
+                    <td>{{ session.login_time.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Accounts</h3>
+    <div class="card">
+        <table>
+            <thead>
+                <tr><th>User</th><th>Role</th><th>Created</th></tr>
+            </thead>
+            <tbody>
+                {% for account in accounts %}
+                <tr><td>{{ account.username }}</td><td>{{ account.role }}</td><td>{{ account.created_at }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Login audit log (last 20)</h3>
+    <div class="card">
+        <table>
+            <thead>
+                <tr><th>Time (UTC)</th><th>User</th><th>Result</th><th>IP</th></tr>
+            </thead>
+            <tbody>
+                {% for entry in audit %}
+                <tr>
+                    <td>{{ entry.created_at }}</td>
+                    <td>{{ entry.username }}</td>
+                    <td>{{ "success" if entry.success else "FAILED" }}</td>
+                    <td>{{ entry.ip }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4">No logins yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Contact messages (last 20)</h3>
+    <div class="card">
+        {% for message in messages %}
+        <p><strong>{{ message.name }}</strong> ({{ message.email }}) &middot; {{ message.created_at }}</p>
+        <p class="message">{{ message.message }}</p>
+        <hr>
+        {% else %}
+        <p>No messages yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='admin.js') }}"></script>
+{% endblock %}

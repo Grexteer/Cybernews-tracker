@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+
+{% block title %}Register - CyberNews Tracker{% endblock %}
+
+{% block content %}
+<section class="contact">
+    <h2>Create an account</h2>
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form action="{{ url_for('register') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" autocomplete="username" minlength="3" maxlength="20" required>
+
+        <label for="password">Password (min. 8 characters, letters and digits):</label>
+        <input type="password" name="password" id="password" autocomplete="new-password" minlength="8" required>
+
+        <label for="confirm">Repeat password:</label>
+        <input type="password" name="confirm" id="confirm" autocomplete="new-password" required>
+
+        <button type="submit">Register</button>
+    </form>
+    <p class="hint">Already registered? <a href="{{ url_for('login') }}">Log in</a>.</p>
+</section>
+{% endblock %}

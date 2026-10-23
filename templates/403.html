@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+
+{% block title %}Access denied - CyberNews Tracker{% endblock %}
+
+{% block content %}
+<section class="contact">
+    <h2>403 - Access denied</h2>
+    <p class="error">Your account ({{ g.user.username }}, role: {{ g.user.role }}) is not allowed to open this page.</p>
+    <p><a class="button" href="{{ url_for('dashboard') }}">Back to your dashboard</a></p>
+</section>
+{% endblock %}

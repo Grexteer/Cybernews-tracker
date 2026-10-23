@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+
+{% block title %}Message received - CyberNews Tracker{% endblock %}
+
+{% block content %}
+<section class="contact">
+    <h2>Thanks for reaching out, {{ name }}! Your message has been received.</h2>
+
+    <div class="card">
+        <p><strong>Email:</strong> {{ email }}</p>
+        <p><strong>Message:</strong></p>
+        <p class="message">{{ message }}</p>
+    </div>
+
+    <p><a class="button" href="{{ url_for('contact') }}">Send another message</a></p>
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+
+{% block title %}Latest News - CyberNews Tracker{% endblock %}
+
+{% block content %}
+<section class="intro">
+    <h2 id="greeting" data-username="{{ username }}">Welcome back, {{ username }}!</h2>
+    <p class="updated">Last updated: {{ last_updated }}</p>
+</section>
+
+<section class="filters">
+    <form id="filterForm" action="{{ url_for('news') }}" method="GET">
+        <input type="search" id="searchInput" name="q" placeholder="Search articles..." aria-label="Search articles">
+        <select id="categorySelect" name="category" aria-label="Category">
+            <option value="">All categories</option>
+            {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+        <select id="sourceSelect" name="source" aria-label="Source">
+            <option value="">All sources</option>
+            {% for source in sources %}
+            <option value="{{ source }}">{{ source }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <p id="articleStatus" class="hint"></p>
+</section>
+
+<section class="articles" id="articleList"></section>
+
+<section class="live-feed">
+    <h3>Live cybersecurity news feed</h3>
+    <button id="refreshButton" type="button">Refresh Headlines</button>
+    <p id="newsStatus" class="hint"></p>
+    <ul id="headlinesContainer"></ul>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='articles.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

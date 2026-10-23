@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+
+{% block content %}
+<section class="contact">
+    <h2>Welcome to CyberNews Tracker!</h2>
+    <p>Latest cybersecurity news, incidents and updates in one place.</p>
+
+    {% if g.user %}
+    <p>You are logged in as <strong>{{ g.user.username }}</strong> ({{ g.user.role }}).</p>
+    <p><a class="button" href="{{ url_for('dashboard') }}">Go to your dashboard</a></p>
+    {% else %}
+    <p>Log in to open your dashboard. Admins also get access to the admin dashboard.</p>
+    <p><a class="button" href="{{ url_for('login') }}">Login</a>
+       <a class="button" href="{{ url_for('register') }}">Register</a></p>
+    {% endif %}
+</section>
+
+{% if featured %}
+<section class="articles">
+    <h3>Featured stories</h3>
+    {% for article in featured %}
+    {% include "_article_card.html" %}
+    {% endfor %}
+</section>
+{% endif %}
+
+<section class="articles">
+    <h3>Latest stories</h3>
+    {% for article in latest %}
+    {% include "_article_card.html" %}
+    {% else %}
+    <p>No news available right now.</p>
+    {% endfor %}
+    <p><a class="button" href="{{ url_for('news') }}">Browse all news</a></p>
+</section>
+{% endblock %}
