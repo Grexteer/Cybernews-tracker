@@ -485,7 +485,7 @@ textarea:focus {
 }
 
 .back-link {
-    display: inline-block;
+    display: block;
     margin-bottom: 20px;
     color: var(--muted);
     font-size: 0.95rem;
@@ -738,4 +738,30 @@ textarea:focus {
 
 .nowrap {
     white-space: nowrap;
+}
+
+/* Imported article: excerpt + link to the publisher */
+.excerpt {
+    margin: 24px 0;
+    padding: 4px 0 4px 20px;
+    border-left: 4px solid var(--accent);
+    color: #334155;
+    font-size: 1.05rem;
+}
+
+.source-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 28px 0;
+    padding: 20px 24px;
+    background-color: var(--accent-soft);
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius);
+}
+
+.source-box p {
+    margin: 2px 0 0;
 }

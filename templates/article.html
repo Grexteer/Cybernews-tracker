@@ -7,17 +7,37 @@
     <a class="back-link" href="{{ url_for('news') }}">&larr; All news</a>
     <span class="badge" data-category="{{ article.category }}">{{ article.category }}</span>
     <h1>{{ article.title }}</h1>
-    <p class="meta"><time datetime="{{ article.published }}">{{ article.published }}</time> &middot; {{ article.source }}</p>
+    <p class="meta">
+        <strong>{{ article.source }}</strong> &middot;
+        <time datetime="{{ article.published }}">{{ article.published }}</time>
+    </p>
+
     <p class="lead-text">{{ article.summary }}</p>
+
+    {% if article.source_url %}
+    {# Imported news: the API only provides a short excerpt, the full story lives at the publisher #}
+    {# Only show the excerpt if it adds something - the API often just repeats the summary #}
+    {% if article.content.strip()[:60] != article.summary.strip()[:60] %}
+    <blockquote class="excerpt message">{{ article.content }}</blockquote>
+    {% endif %}
+
+    <aside class="source-box">
+        <div>
+            <strong>Continue reading at {{ article.source }}</strong>
+            <p class="hint">This is a short excerpt. The full story is published by the original source.</p>
+        </div>
+        <a class="btn btn-primary" href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer">Read the original source &nearr;</a>
+    </aside>
+    {% else %}
+    {# Article written in the admin area: show the complete text #}
     <div class="article-body message">{{ article.content }}</div>
+    {% endif %}
 
     <div class="article-actions">
-        {% if article.source_url %}
-        <a class="btn btn-primary" href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer">Read the original source</a>
-        {% endif %}
         {% if g.user and g.user.role == "admin" %}
         <a class="btn btn-ghost" href="{{ url_for('article_edit', article_id=article.id) }}">Edit</a>
         {% endif %}
+        <a class="btn btn-ghost" href="{{ url_for('news', category=article.category) }}">More in {{ article.category }}</a>
     </div>
 </article>
 {% endblock %}
