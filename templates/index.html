@@ -15,7 +15,6 @@
                 <li><a href="{{ url_for('news') }}">Latest News</a></li>
                 <li><a href="{{ url_for('contact') }}">Contact</a></li>
                 <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('cookie_check') }}">Cookie Check</a></li>
                 {% if g.user %}
                 <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                 {% if g.user.role == "admin" %}
