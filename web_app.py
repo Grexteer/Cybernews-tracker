@@ -42,36 +42,6 @@ LOCAL_NEWS = [
     {"title": "Critical Router Flaw Patched After Mass Exploitation", "source": "PatchNews"},
 ]
 
-# Demo API tokens for /api/intelligence-feed: token -> {owner, role}
-# Independent from the cookie sessions - the token is sent manually in a header.
-ACTIVE_TOKENS = {
-    "admin-token-1234": {"owner": "bob", "role": "admin"},
-    "analyst-token-5678": {"owner": "alice", "role": "analyst"},
-}
-
-# Intel reports per role (admins see everything an analyst sees, plus more)
-INTEL_REPORTS = {
-    "analyst": {
-        "classification": "INTERNAL",
-        "title": "Weekly Threat Summary",
-        "findings": [
-            "Phishing wave targeting energy-sector employees",
-            "New ransomware variant seen in the wild",
-        ],
-    },
-    "admin": {
-        "classification": "SECRET",
-        "title": "Full Intelligence Briefing",
-        "findings": [
-            "Phishing wave targeting energy-sector employees",
-            "New ransomware variant seen in the wild",
-            "Compromised VPN credentials found on a leak forum",
-            "Suspected insider activity on the finance network",
-        ],
-        "internal_notes": "Rotate all VPN credentials; escalate insider case to legal.",
-    },
-}
-
 # Server-side session store: session_token -> {user_id, username, role, login_time}
 # The browser only ever sees the random token, never the data itself.
 SESSIONS = {}
@@ -361,31 +331,6 @@ def import_live_news():
 def admin_import_news():
     imported, error = import_live_news()
     return redirect(url_for("admin_dashboard", imported=imported, import_error=error))
-
-
-@app.route("/api/intelligence-feed")
-def api_intelligence_feed():
-    """Sensitive intel report as JSON. Needs 'Authorization: Bearer <token>' - no cookie involved."""
-    header = request.headers.get("Authorization", "")
-    scheme, _, token = header.partition(" ")
-    if scheme.lower() != "bearer" or not token.strip():
-        return jsonify({"error": "Access Denied: missing or malformed Bearer token."}), 401
-
-    entry = ACTIVE_TOKENS.get(token.strip())
-    if entry is None:
-        return jsonify({"error": "Access Denied: invalid token."}), 403
-
-    # The role comes from the server-side token table, never from the client
-    report = dict(INTEL_REPORTS[entry["role"]])
-    report["role"] = entry["role"]
-    report["generated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return jsonify(report)
-
-
-@app.route("/intelligence")
-@login_required
-def intelligence():
-    return render_template("intelligence.html")
 
 
 @app.route("/contact")
