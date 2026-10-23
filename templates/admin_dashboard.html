@@ -9,12 +9,12 @@
        Only accounts with the <code>admin</code> role in the server-side session can open this page.</p>
 
     <ul class="tiles">
-        <li><strong>{{ articles|length }}</strong> articles</li>
-        <li><strong>{{ accounts|length }}</strong> accounts</li>
-        <li><strong>{{ sessions|length }}</strong> active sessions</li>
+        <li><a href="#articles"><strong>{{ articles|length }}</strong> articles</a></li>
+        <li><a href="#accounts"><strong>{{ accounts|length }}</strong> accounts</a></li>
+        <li><a href="#sessions"><strong>{{ sessions|length }}</strong> active sessions</a></li>
     </ul>
 
-    <h3>Articles ({{ articles|length }})</h3>
+    <h3 id="articles">Articles ({{ articles|length }})</h3>
     {% if import_error %}
     <p class="error">Import failed: {{ import_error }}</p>
     {% elif imported is not none %}
@@ -53,7 +53,7 @@
         </table>
     </div>
 
-    <h3>Active sessions ({{ sessions|length }})</h3>
+    <h3 id="sessions">Active sessions ({{ sessions|length }})</h3>
     <div class="card">
         <table>
             <thead>
@@ -71,7 +71,7 @@
         </table>
     </div>
 
-    <h3>Accounts</h3>
+    <h3 id="accounts">Accounts</h3>
     <div class="card">
         <table>
             <thead>

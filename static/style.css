@@ -18,6 +18,11 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
 body {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     line-height: 1.6;
@@ -598,9 +603,24 @@ textarea:focus {
     background-color: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 16px 20px;
     color: var(--muted);
     box-shadow: var(--shadow);
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.tiles li:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-hover);
+}
+
+.tiles a {
+    display: block;
+    padding: 16px 20px;
+    color: inherit;
+}
+
+.tiles a:hover {
+    text-decoration: none;
 }
 
 .tiles strong {
