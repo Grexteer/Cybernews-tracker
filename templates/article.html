@@ -34,6 +34,18 @@
     {% endif %}
 
     <div class="article-actions">
+        {% if g.user %}
+        <form action="{{ url_for('bookmark_remove' if saved else 'bookmark_add', article_id=article.id) }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            {% if saved %}
+            <button type="submit" class="btn btn-ghost">&#10003; Saved &ndash; remove</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary">Save for later</button>
+            {% endif %}
+        </form>
+        {% else %}
+        <a class="btn btn-ghost" href="{{ url_for('login') }}">Log in to save this article</a>
+        {% endif %}
         {% if g.user and g.user.role == "admin" %}
         <a class="btn btn-ghost" href="{{ url_for('article_edit', article_id=article.id) }}">Edit</a>
         {% endif %}

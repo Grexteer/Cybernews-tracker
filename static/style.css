@@ -765,3 +765,20 @@ textarea:focus {
 .source-box p {
     margin: 2px 0 0;
 }
+
+/* Saved articles */
+.saved h2 {
+    margin-top: 0;
+}
+
+.card-meta form {
+    margin: 0;
+}
+
+.article-actions form {
+    margin: 0;
+}
+
+.contact.section {
+    margin-top: 48px;
+}

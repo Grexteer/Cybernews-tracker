@@ -205,7 +205,39 @@ def article(article_id):
     row = get_db().execute("SELECT * FROM articles WHERE id = ?", (article_id,)).fetchone()
     if row is None:
         abort(404)
-    return render_template("article.html", article=row)
+    saved = False
+    if g.user:
+        saved = get_db().execute(
+            "SELECT 1 FROM bookmarks WHERE user_id = ? AND article_id = ?", (g.user["user_id"], article_id)
+        ).fetchone() is not None
+    return render_template("article.html", article=row, saved=saved)
+
+
+def back_after_bookmark(article_id):
+    """Go back to where the click came from - only to two known pages, never to a URL from the form."""
+    if request.form.get("next") == "dashboard":
+        return redirect(url_for("dashboard"))
+    return redirect(url_for("article", article_id=article_id))
+
+
+@app.route("/article/<int:article_id>/save", methods=["POST"])
+@login_required
+def bookmark_add(article_id):
+    db = get_db()
+    if db.execute("SELECT 1 FROM articles WHERE id = ?", (article_id,)).fetchone() is None:
+        abort(404)
+    db.execute("INSERT OR IGNORE INTO bookmarks (user_id, article_id) VALUES (?, ?)", (g.user["user_id"], article_id))
+    db.commit()
+    return back_after_bookmark(article_id)
+
+
+@app.route("/article/<int:article_id>/unsave", methods=["POST"])
+@login_required
+def bookmark_remove(article_id):
+    db = get_db()
+    db.execute("DELETE FROM bookmarks WHERE user_id = ? AND article_id = ?", (g.user["user_id"], article_id))
+    db.commit()
+    return back_after_bookmark(article_id)
 
 
 @app.route("/about")
@@ -460,7 +492,12 @@ def register():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template("dashboard.html", user=g.user, active_sessions=len(SESSIONS))
+    saved = get_db().execute(
+        "SELECT a.* FROM bookmarks b JOIN articles a ON a.id = b.article_id"
+        " WHERE b.user_id = ? ORDER BY b.created_at DESC, a.id DESC",
+        (g.user["user_id"],),
+    ).fetchall()
+    return render_template("dashboard.html", user=g.user, active_sessions=len(SESSIONS), saved=saved)
 
 
 @app.route("/admin")

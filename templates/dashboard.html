@@ -3,7 +3,33 @@
 {% block title %}Dashboard - CyberNews Tracker{% endblock %}
 
 {% block content %}
-<section class="contact">
+<section class="container saved">
+    <h2>Saved articles ({{ saved|length }})</h2>
+    {% if saved %}
+    <div class="grid">
+        {% for article in saved %}
+        <article class="card article-card">
+            <span class="badge" data-category="{{ article.category }}">{{ article.category }}</span>
+            <h3><a href="{{ url_for('article', article_id=article.id) }}">{{ article.title }}</a></h3>
+            <p class="summary">{{ article.summary }}</p>
+            <div class="card-meta">
+                <span>{{ article.source }}</span>
+                <form action="{{ url_for('bookmark_remove', article_id=article.id) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="next" value="dashboard">
+                    <button type="submit" class="link-button">Remove</button>
+                </form>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="hint">Nothing saved yet. Open an article and click <strong>Save for later</strong>.
+       <a href="{{ url_for('news') }}">Browse the news &rarr;</a></p>
+    {% endif %}
+</section>
+
+<section class="contact section">
     <h2>User Dashboard</h2>
     <p>Welcome, <strong>{{ user.username }}</strong>!</p>
 
