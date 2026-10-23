@@ -12,6 +12,8 @@
         <li><a href="#articles"><strong>{{ articles|length }}</strong> articles</a></li>
         <li><a href="#accounts"><strong>{{ accounts|length }}</strong> accounts</a></li>
         <li><a href="#sessions"><strong>{{ sessions|length }}</strong> active sessions</a></li>
+        <li><a href="#audit"><strong>{{ audit_total }}</strong> login entries</a></li>
+        <li><a href="#messages"><strong>{{ message_total }}</strong> messages</a></li>
     </ul>
 
     <h3 id="articles">Articles ({{ articles|length }})</h3>
@@ -85,7 +87,7 @@
         </table>
     </div>
 
-    <h3>Login audit log (last 20)</h3>
+    <h3 id="audit">Login audit log (last 20)</h3>
     <div class="card">
         <table>
             <thead>
@@ -106,7 +108,7 @@
         </table>
     </div>
 
-    <h3>Contact messages (last 20)</h3>
+    <h3 id="messages">Contact messages (last 20)</h3>
     <div class="card">
         {% for message in messages %}
         <p><strong>{{ message.name }}</strong> ({{ message.email }}) &middot; {{ message.created_at }}</p>

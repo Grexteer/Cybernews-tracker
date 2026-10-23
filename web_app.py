@@ -517,6 +517,8 @@ def admin_dashboard():
                             " ORDER BY published DESC, id DESC").fetchall(),
         audit=db.execute("SELECT * FROM login_audit ORDER BY id DESC LIMIT 20").fetchall(),
         messages=db.execute("SELECT * FROM messages ORDER BY id DESC LIMIT 20").fetchall(),
+        audit_total=db.execute("SELECT COUNT(*) FROM login_audit").fetchone()[0],
+        message_total=db.execute("SELECT COUNT(*) FROM messages").fetchone()[0],
     )
 
 
